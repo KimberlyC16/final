@@ -37,7 +37,7 @@ public class adminDash extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         books = new javax.swing.JLabel();
         user = new javax.swing.JLabel();
-        admin = new javax.swing.JLabel();
+        admin_fname = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -94,9 +94,9 @@ public class adminDash extends javax.swing.JFrame {
             }
         });
 
-        admin.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        admin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        admin.setText("Admin");
+        admin_fname.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        admin_fname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        admin_fname.setText("Admin");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-users-100.png"))); // NOI18N
 
@@ -111,6 +111,11 @@ public class adminDash extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("LOGOUT");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -119,7 +124,7 @@ public class adminDash extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(admin, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(admin_fname, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(admin_lname, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,7 +154,7 @@ public class adminDash extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(admin)
+                        .addComponent(admin_fname)
                         .addGap(18, 18, 18)
                         .addComponent(admin_lname)
                         .addGap(221, 221, 221))
@@ -197,12 +202,16 @@ public class adminDash extends javax.swing.JFrame {
              lf.setVisible(true);
              this.dispose();
             }else{
-                admin.setText(""+sess.getFname());
+                admin_fname.setText(""+sess.getFname());
                 admin_lname.setText(""+sess.getLname());
             }
         
         
     }//GEN-LAST:event_formWindowActivated
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+       System.exit(0);
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
@@ -240,7 +249,7 @@ public class adminDash extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel admin;
+    private javax.swing.JLabel admin_fname;
     private javax.swing.JLabel admin_lname;
     private javax.swing.JLabel books;
     private javax.swing.JLabel jLabel1;

@@ -27,6 +27,7 @@ public class usersForm extends javax.swing.JFrame {
     public usersForm() {
         initComponents();
         displayData();
+        
     }
         Color navcolor = new Color(255,204,204);
         Color hovercolor = new Color (153,153,255);
@@ -66,8 +67,8 @@ public class usersForm extends javax.swing.JFrame {
         cuser = new javax.swing.JLabel();
         id = new javax.swing.JLabel();
         hover = new javax.swing.JPanel();
-        paneladd = new javax.swing.JLabel();
-        paneledit = new javax.swing.JLabel();
+        add = new javax.swing.JLabel();
+        edit = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -163,29 +164,35 @@ public class usersForm extends javax.swing.JFrame {
         });
         hover.setLayout(null);
 
-        paneladd.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        paneladd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        paneladd.setText("ADD");
-        paneladd.addMouseListener(new java.awt.event.MouseAdapter() {
+        add.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        add.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        add.setText("ADD");
+        add.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                paneladdMouseClicked(evt);
-            }
-        });
-        hover.add(paneladd);
-        paneladd.setBounds(0, 0, 140, 29);
-
-        paneledit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        paneledit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        paneledit.setText("EDIT");
-        paneledit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                paneleditMouseClicked(evt);
+                addMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                paneleditMouseEntered(evt);
+                addMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                paneleditMouseExited(evt);
+                addMouseExited(evt);
+            }
+        });
+        hover.add(add);
+        add.setBounds(0, 0, 140, 29);
+
+        edit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        edit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        edit.setText("EDIT");
+        edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                editMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                editMouseExited(evt);
             }
         });
 
@@ -213,7 +220,7 @@ public class usersForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(paneledit, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,7 +243,7 @@ public class usersForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(hover, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(paneledit, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(id)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -288,21 +295,21 @@ public class usersForm extends javax.swing.JFrame {
 
     private void hoverMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoverMouseEntered
        
-        paneladd.setBackground(hovercolor);
+        
     }//GEN-LAST:event_hoverMouseEntered
 
     private void hoverMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoverMouseExited
        
-        paneladd.setBackground(navcolor);
+       
     }//GEN-LAST:event_hoverMouseExited
 
-    private void paneladdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneladdMouseClicked
+    private void addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseClicked
        addform add = new addform();
        add.setVisible(true);
        this.dispose();
-    }//GEN-LAST:event_paneladdMouseClicked
+    }//GEN-LAST:event_addMouseClicked
 
-    private void paneleditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneleditMouseClicked
+    private void editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMouseClicked
         int rowIndex = userstable.getSelectedRow();
         
         if(rowIndex < 0){
@@ -316,6 +323,7 @@ public class usersForm extends javax.swing.JFrame {
             ResultSet rs = dbc.getData("SELECT * FROM tbs WHERE u_id = '"+tm.getValueAt(rowIndex, 0)+"'");
             if(rs.next()){
             addform add = new addform();
+            add.uid.setText(""+rs.getInt("u_id"));
             add.fname.setText(""+rs.getString("u_fname"));
             add.lname.setText(""+rs.getString("u_lname"));
             add.email.setText(""+rs.getString("u_email"));
@@ -336,15 +344,23 @@ public class usersForm extends javax.swing.JFrame {
         
         }
         
-    }//GEN-LAST:event_paneleditMouseClicked
+    }//GEN-LAST:event_editMouseClicked
 
-    private void paneleditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneleditMouseEntered
-       hover.setBackground(hovercolor);
-    }//GEN-LAST:event_paneleditMouseEntered
+    private void editMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMouseEntered
+       edit.setBackground(hovercolor);
+    }//GEN-LAST:event_editMouseEntered
 
-    private void paneleditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paneleditMouseExited
-        hover.setBackground(navcolor);
-    }//GEN-LAST:event_paneleditMouseExited
+    private void editMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMouseExited
+        edit.setBackground(navcolor);
+    }//GEN-LAST:event_editMouseExited
+
+    private void addMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseEntered
+        add.setBackground(hovercolor);
+    }//GEN-LAST:event_addMouseEntered
+
+    private void addMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseExited
+        add.setBackground(navcolor);
+    }//GEN-LAST:event_addMouseExited
 
     /**
      * @param args the command line arguments
@@ -383,8 +399,10 @@ public class usersForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel add;
     private javax.swing.JButton back;
     private javax.swing.JLabel cuser;
+    private javax.swing.JLabel edit;
     private javax.swing.JPanel hover;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;
@@ -393,8 +411,6 @@ public class usersForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel paneladd;
-    private javax.swing.JLabel paneledit;
     private javax.swing.JLabel user;
     private javax.swing.JTable userstable;
     // End of variables declaration//GEN-END:variables

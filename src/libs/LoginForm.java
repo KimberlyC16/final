@@ -9,6 +9,8 @@ import admin.adminDash;
 import admin.usersForm;
 import config.Session;
 import config.dbConnector;
+import config.passwordHasher;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -34,11 +36,22 @@ public class LoginForm extends javax.swing.JFrame {
     public static boolean loginAcc(String username, String password){
         dbConnector connector = new dbConnector();
         try{
-            String query = "SELECT * FROM tbs  WHERE u_username = '" + username + "' AND u_password = '" + password + "'";
+            String query = "SELECT * FROM tbs  WHERE u_username = '" + username + "'";
             ResultSet resultSet = connector.getData(query);
             if(resultSet.next()){
                
-                status = resultSet.getString("u_status");
+               
+                String hashedPass = resultSet.getString("u_password");
+                String rehashedPass = passwordHasher.hashPassword(password);
+                
+                System.out.println(""+hashedPass);
+                System.out.println(""+rehashedPass);
+                
+                
+                if(hashedPass.equals(rehashedPass)){
+                    
+                    
+                    status = resultSet.getString("u_status");
                 type = resultSet.getString("u_type");
                  Session sess = Session.getInstance();
                  sess.setFname(resultSet.getString("u_fname"));
@@ -48,13 +61,15 @@ public class LoginForm extends javax.swing.JFrame {
                  sess.setType(resultSet.getString("u_type"));
                  sess.setStatus(resultSet.getString("u_status"));
                  sess.setUid(resultSet.getInt("u_id"));
-          
-                 
-              return true;
+                     return true;
+                }else{
+                    return false;
+                }
+ 
             }else{
                 return false;
             }
-        }catch (SQLException ex) {
+        }catch (SQLException |  NoSuchAlgorithmException ex) {
             return false;
         }
 
@@ -79,7 +94,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         exit = new javax.swing.JButton();
         log = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        pick = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -142,7 +157,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
+        pick.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -193,7 +208,7 @@ public class LoginForm extends javax.swing.JFrame {
                             .addGap(18, 18, 18)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(241, 241, 241)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(pick, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(83, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -214,7 +229,7 @@ public class LoginForm extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pick, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -249,13 +264,13 @@ public class LoginForm extends javax.swing.JFrame {
            if(!status.equals("active")){
                JOptionPane.showMessageDialog(null, "Account is not Active");
            }else{
-             if(type.equals("Admin")){
-             JOptionPane.showMessageDialog(null, "Login Sucess!");
+             if(type.equals("admin")){
+             JOptionPane.showMessageDialog(null, "Login Success");
              adminDash ads = new adminDash();
              ads.setVisible(true);
              this.dispose();
              }else if(type.equals("user")){
-                 JOptionPane.showMessageDialog(null, "Login Sucess!");
+                 JOptionPane.showMessageDialog(null, "Login Success");
                  UserDash uds = new UserDash();
                  uds.setVisible(true);
                  this.dispose();
@@ -312,7 +327,6 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton exit;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -323,6 +337,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton log;
     private javax.swing.JTextField pass;
+    private javax.swing.JComboBox<String> pick;
     private javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
 }
